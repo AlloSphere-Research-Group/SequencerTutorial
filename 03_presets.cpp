@@ -51,18 +51,24 @@ public:
 /*
 	The keyboard is used here to store and recall presets, and also to
 	randomize the parameter values. See instructions below.
+
+	The storePreset() function can be used passing only a string, but you can
+	also assign a number index to each particular preset. The number index will
+	become useful in the next example. For simplicity, the preset name and the
+	preset index will be the same (although one is an int and the other a
+	string).
 */
 	virtual void onKeyDown(const Keyboard& k)
 	{
 		std::string presetName = std::to_string(k.keyAsNumber());
 		if (k.alt()) {
 			if (k.isNumber()) { // Store preset
-				presetHandler.storePreset(presetName);
+				presetHandler.storePreset(k.keyAsNumber(), presetName);
 				std::cout << "Storing preset:" << presetName << std::endl;
 			}
 		} else {
 			if (k.isNumber()) { // Recall preset
-				presetHandler.recallPreset(presetName);
+				presetHandler.recallPreset(k.keyAsNumber(), presetName);
 				std::cout << "Recalling preset:" << presetName << std::endl;
 			} else if (k.key() == ' ') { // Randomize parameters
 	 			X = randomGenerator.uniformS();
@@ -84,6 +90,20 @@ private:
 
 	To recall a preset just press a number. The position and size will morph
 	to the preset values.
+
+	If you look within the "sequencerPresets" folder you will find files named
+	"1.preset", "2.preset", etc. These files contain the preset data in plain
+	text and they can be easily modified and created manually. A preset file
+	contains something like the following text:
+
+::1
+/Position/X f -0.304725
+/Position/Y f 0.525912
+/Size/Scale f 2.057627
+::
+
+	Notice how the group name is prepended and each line represents a single
+	parameter value (in something reminiscent to OSC notation).
 */
 
 int main(int argc, char *argv[])
