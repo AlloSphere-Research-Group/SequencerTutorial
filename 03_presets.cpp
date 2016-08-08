@@ -68,7 +68,7 @@ public:
 			}
 		} else {
 			if (k.isNumber()) { // Recall preset
-				presetHandler.recallPreset(k.keyAsNumber(), presetName);
+				presetHandler.recallPreset(k.keyAsNumber());
 				std::cout << "Recalling preset:" << presetName << std::endl;
 			} else if (k.key() == ' ') { // Randomize parameters
 	 			X = randomGenerator.uniformS();
